@@ -16,6 +16,7 @@ services:
       NODE_OPTIONS: "--max-old-space-size=4096"
       N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE: "true"
       N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+      N8N_EXECUTION_TIMEOUT: "3600"
     volumes:
       - automacoes_n8n_data:/home/node/.n8n
     networks:
@@ -29,3 +30,4 @@ networks:
   stack-portainer_default:
 
     external: true
+
