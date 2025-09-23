@@ -13,6 +13,7 @@ services:
       N8N_PROTOCOL: "https"
       WEBHOOK_URL: "https://n8n.hpboost.com.br/"
       GENERIC_TIMEZONE: "America/Sao_Paulo"
+      NODE_OPTIONS: "--max-old-space-size=4096"
       N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE: "true"
       N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
     volumes:
@@ -26,4 +27,5 @@ volumes:
 
 networks:
   stack-portainer_default:
+
     external: true
