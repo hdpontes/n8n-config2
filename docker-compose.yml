@@ -1,0 +1,29 @@
+services:
+  n8n:
+    build:
+      context: ./n8n-custom # <-- Verifique se este é o caminho relativo correto da pasta do Dockerfile
+    platform: linux/amd64
+    container_name: n8n
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      N8N_HOST: "n8n.hpboost.com.br"
+      N8N_PORT: "5678"
+      N8N_PROTOCOL: "https"
+      WEBHOOK_URL: "https://n8n.hpboost.com.br/"
+      GENERIC_TIMEZONE: "America/Sao_Paulo"
+      N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE: "true"
+      N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
+    volumes:
+      - automacoes_n8n_data:/home/node/.n8n
+    networks:
+      - stack-portainer_default
+
+volumes:
+  automacoes_n8n_data:
+    external: true
+
+networks:
+  stack-portainer_default:
+    external: true
