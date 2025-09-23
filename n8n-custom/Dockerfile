@@ -1,22 +1,25 @@
-# Usa a tag oficial para a versão mais recente em Alpine
-FROM n8nio/n8n:latest-alpine
+# Start from a standard, official Node.js image based on Alpine
+FROM node:20-alpine
 
-USER root
-
-# Instala as dependências necessárias
+# Install OS-level dependencies for FFmpeg and fonts
 RUN apk update && apk add --no-cache \
     ffmpeg \
     imagemagick \
     wget \
     fontconfig
 
-# Instala a fonte Poppins
+# Install n8n globally using the Node Package Manager (npm)
+RUN npm install -g n8n
+
+# Install the Poppins font
 RUN mkdir -p /usr/local/share/fonts/poppins && \
     wget https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-Regular.ttf -P /usr/local/share/fonts/poppins && \
     wget https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-Bold.ttf -P /usr/local/share/fonts/poppins && \
     fc-cache -fv
 
+# The base Node image comes with a 'node' user. We'll use its home directory.
 USER node
+WORKDIR /home/node
 
-# Comando padrão da imagem
+# Standard command to start n8n
 CMD ["n8n"]
