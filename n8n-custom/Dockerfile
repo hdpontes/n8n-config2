@@ -1,10 +1,11 @@
 # Start from a standard, official Node.js image based on Alpine
 FROM node:20-alpine
 
-# Install OS-level dependencies for FFmpeg and fonts
+# Install OS-level dependencies for FFmpeg, Fonts, and Image Processing
 RUN apk update && apk add --no-cache \
     ffmpeg \
     imagemagick \
+    graphicsmagick \
     wget \
     fontconfig
 
