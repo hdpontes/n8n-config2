@@ -1,37 +1,43 @@
-# --- Base Node.js ---
-FROM node:20-bullseye-slim
+# --- Base image ---
+FROM node:20-slim
 
-# --- Instala dependências do sistema ---
+# --- Variáveis de ambiente ---
+ENV DEBIAN_FRONTEND=noninteractive
+
+# --- Instala dependências do sistema + FFmpeg, frei0r e fontconfig ---
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     frei0r-plugins \
     imagemagick \
     fonts-dejavu \
-    wget \
-    build-essential \
-    python3 \
     fontconfig \
+    ca-certificates \
+    wget \
+    curl \
+    python3 \
+    build-essential \
+    unzip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# --- Instala n8n globalmente ---
-RUN npm install -g n8n
-
-# --- Instala a fonte Poppins ---
+# --- Instala fontes Poppins localmente sem depender do GitHub ---
 RUN mkdir -p /usr/local/share/fonts/poppins && \
-    wget https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-Regular.ttf -P /usr/local/share/fonts/poppins && \
-    wget https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-Bold.ttf -P /usr/local/share/fonts/poppins && \
+    curl -sLo /usr/local/share/fonts/poppins/Poppins-Regular.ttf https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Regular.ttf && \
+    curl -sLo /usr/local/share/fonts/poppins/Poppins-Bold.ttf https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Bold.ttf && \
     fc-cache -fv
 
-# --- Remove ENTRYPOINT do FFmpeg, evita conflito com n8n ---
-ENTRYPOINT []
+# --- Diretório de trabalho ---
+WORKDIR /usr/src/app
 
-# --- Definindo usuário não-root ---
-USER node
-WORKDIR /home/node
+# --- Copia package.json e instala dependências npm ---
+COPY package*.json ./
+RUN npm install
 
-# --- Volume para persistência de dados do n8n ---
-VOLUME ["/home/node/.n8n"]
+# --- Copia código da aplicação ---
+COPY . .
 
-# --- Comando padrão ---
+# --- Expõe porta padrão do n8n ---
+EXPOSE 5678
+
+# --- Comando de inicialização ---
 CMD ["n8n"]
