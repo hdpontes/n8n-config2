@@ -1,29 +1,38 @@
-# Start from a standard, official Node.js image based on Alpine
-FROM node:20-alpine
+# --- Base Image com FFmpeg full (Ubuntu) ---
+FROM jrottenberg/ffmpeg:6.1-ubuntu
 
-# Install all dependencies, including build tools and development libraries
-RUN apk update && apk add --no-cache \
-    ffmpeg \
-    imagemagick \
-    imagemagick-dev \
-    graphicsmagick \
-    build-base \
-    python3 \
+# --- Instala dependências do sistema ---
+RUN apt-get update && apt-get install -y \
+    curl \
     wget \
-    fontconfig
+    fontconfig \
+    unzip \
+    git \
+    python3 \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install n8n globally using the Node Package Manager (npm)
+# --- Instala Node.js 20 ---
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
+    && npm install -g npm
+
+# --- Instala n8n globalmente ---
 RUN npm install -g n8n
 
-# Install the Poppins font
-RUN mkdir -p /usr/local/share/fonts/poppins && \
-    wget https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-Regular.ttf -P /usr/local/share/fonts/poppins && \
-    wget https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-Bold.ttf -P /usr/local/share/fonts/poppins && \
-    fc-cache -fv
+# --- Instala a fonte Poppins ---
+RUN mkdir -p /usr/local/share/fonts/poppins \
+    && wget https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-Regular.ttf -P /usr/local/share/fonts/poppins \
+    && wget https://raw.githubusercontent.com/google/fonts/main/ofl/poppins/Poppins-Bold.ttf -P /usr/local/share/fonts/poppins \
+    && fc-cache -fv
 
-# The base Node image comes with a 'node' user. We'll use its home directory.
+# --- Cria usuário 'node' e diretório de trabalho ---
+RUN useradd -ms /bin/bash node
 USER node
 WORKDIR /home/node
 
-# Standard command to start n8n
+# --- Persistência do n8n ---
+VOLUME ["/home/node/.n8n"]
+
+# --- Comando padrão para iniciar n8n ---
 CMD ["n8n"]
