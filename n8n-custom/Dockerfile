@@ -6,7 +6,6 @@ RUN apt-get update && apt-get install -y \
       ffmpeg \
       imagemagick \
       imagemagick-dev \
-      graphicsmagick \
       frei0r-plugins \
       wget \
       curl \
