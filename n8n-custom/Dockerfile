@@ -1,18 +1,23 @@
 # Base Node.js Debian para apt-get
 FROM node:20-bullseye
 
-# Instala dependências do sistema e FFmpeg + frei0r
+# --- Pacotes do sistema ---
 RUN apt-get update && apt-get install -y \
-      ffmpeg \
-      imagemagick \
-      imagemagick-dev \
-      frei0r-plugins \
-      wget \
-      curl \
-      ca-certificates \
-      git \
-      unzip \
-      fontconfig \
+    wget \
+    curl \
+    git \
+    unzip \
+    fontconfig \
+    build-essential \
+    yasm \
+    pkg-config \
+    libpng-dev \
+    libjpeg-dev \
+    libwebp-dev \
+    libtiff-dev \
+    libavcodec-extra \
+    frei0r-plugins \
+    ffmpeg \
     && rm -rf /var/lib/apt/lists/*
 
 # Baixa e instala fontes Poppins
