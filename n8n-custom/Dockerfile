@@ -1,42 +1,31 @@
-# Dockerfile para n8n customizado com FFmpeg e frei0r
-FROM node:20-bullseye
+# Use a imagem oficial do n8n como base
+FROM n8nio/n8n:2.268.0
 
-# Informações do maintainer
-LABEL maintainer="Herbert Danilo Pontes <seu-email@dominio.com>"
-
-# Atualiza e instala dependências essenciais + FFmpeg + frei0r
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        wget \
-        curl \
-        ca-certificates \
-        git \
-        unzip \
-        fontconfig \
-        ffmpeg \
-        frei0r-plugins \
+# Instala FFmpeg e plugins frei0r para efeitos
+USER root
+RUN apt-get update && apt-get install -y \
+    ffmpeg \
+    frei0r-plugins \
+    wget \
+    curl \
+    ca-certificates \
+    git \
+    unzip \
+    fontconfig \
     && rm -rf /var/lib/apt/lists/*
 
-# Instala fontes Poppins
+# Cria diretório para fontes adicionais (opcional)
 RUN mkdir -p /usr/local/share/fonts/poppins && \
-    wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Regular.ttf -O /usr/local/share/fonts/poppins/Poppins-Regular.ttf && \
-    wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Bold.ttf -O /usr/local/share/fonts/poppins/Poppins-Bold.ttf && \
+    curl -sLo /usr/local/share/fonts/poppins/Poppins-Regular.ttf https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Regular.ttf && \
+    curl -sLo /usr/local/share/fonts/poppins/Poppins-Bold.ttf https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Bold.ttf && \
     fc-cache -fv
 
-# Define diretório de trabalho
-WORKDIR /home/node/.n8n
-
-# Copia apenas package.json e package-lock.json se houver customizações
-# (opcional, pode remover se não tiver pacotes extras)
-# COPY package*.json ./
-# RUN npm install
-
-# Define usuário para rodar o n8n
+# Volta para usuário n8n
 USER node
 
-# Exposição da porta do n8n
-EXPOSE 5678
+# Diretório de trabalho (mesmo do volume)
+WORKDIR /home/node/.n8n
 
-# Comando padrão
+# Comando padrão para iniciar o n8n
 ENTRYPOINT ["n8n"]
 CMD ["start"]
