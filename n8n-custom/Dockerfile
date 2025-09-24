@@ -7,7 +7,6 @@ RUN apt-get update && apt-get install -y \
       imagemagick \
       imagemagick-dev \
       graphicsmagick \
-      build-base \
       frei0r-plugins \
       wget \
       curl \
