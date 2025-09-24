@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y \
     graphicsmagick \
     build-essential \
     libmagickwand-dev \
-    libmagickcore-dev
+    libmagickcore-dev \
     yasm \
     pkg-config \
     libpng-dev \
