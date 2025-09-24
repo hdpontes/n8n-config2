@@ -4,6 +4,10 @@ FROM node:20-bullseye
 # Instala dependências do sistema e FFmpeg + frei0r
 RUN apt-get update && apt-get install -y \
       ffmpeg \
+      imagemagick \
+      imagemagick-dev \
+      graphicsmagick \
+      build-base \
       frei0r-plugins \
       wget \
       curl \
