@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y \
     imagemagick \
     graphicsmagick \
     build-essential \
+    libmagickwand-dev \
+    libmagickcore-dev
     yasm \
     pkg-config \
     libpng-dev \
