@@ -13,6 +13,12 @@ RUN apt-get update && apt-get install -y \
       fontconfig \
     && rm -rf /var/lib/apt/lists/*
 
+# Baixa e instala fontes Poppins
+RUN mkdir -p /usr/local/share/fonts/poppins && \
+    wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Regular.ttf -P /usr/local/share/fonts/poppins && \
+    wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Bold.ttf -P /usr/local/share/fonts/poppins && \
+    fc-cache -fv
+
 # Instala n8n globalmente
 RUN npm install -g n8n
 
