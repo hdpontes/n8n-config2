@@ -1,5 +1,5 @@
 # Use a imagem oficial do n8n como base
-FROM n8nio/n8n:2.268.0
+FROM n8nio/n8n:latest
 
 # Instala FFmpeg e plugins frei0r para efeitos
 USER root
