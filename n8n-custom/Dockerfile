@@ -1,9 +1,6 @@
 # Base Node.js Debian para apt-get
 FROM node:20-bullseye
 
-# Mude para o usuário root para poder instalar pacotes
-USER root
-
 # --- Pacotes do sistema ---
 RUN apt-get update && apt-get install -y \
     wget \
