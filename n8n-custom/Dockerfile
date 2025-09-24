@@ -8,6 +8,8 @@ RUN apt-get update && apt-get install -y \
     git \
     unzip \
     fontconfig \
+    imagemagick \
+    graphicsmagick \
     build-essential \
     yasm \
     pkg-config \
