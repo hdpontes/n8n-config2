@@ -25,6 +25,7 @@ RUN apt-get update && apt-get install -y \
     libavcodec-extra \
     ffmpeg \
     frei0r-plugins \
+    rclone \
     && rm -rf /var/lib/apt/lists/*
 
 # Baixa e instala fontes Poppins
