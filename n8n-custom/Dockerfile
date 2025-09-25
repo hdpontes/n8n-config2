@@ -1,6 +1,9 @@
 # Base Node.js Debian para apt-get
 FROM node:20-bullseye
 
+# Instalar aplicatiovos como root
+USER root
+
 # --- Pacotes do sistema ---
 RUN apt-get update && apt-get install -y \
     wget \
