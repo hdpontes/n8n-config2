@@ -1,36 +1,40 @@
+# --- Base n8n Alpine ---
 FROM n8nio/n8n:latest
 
+# Executar como root para instalar pacotes
 USER root
 
-RUN apt-get update && apt-get install -y \
+# --- Pacotes do sistema (Alpine) ---
+RUN apk add --no-cache \
     wget \
     git \
     unzip \
     fontconfig \
     imagemagick \
     graphicsmagick \
-    build-essential \
-    libmagickwand-dev \
-    libmagickcore-dev \
+    build-base \
     yasm \
-    pkg-config \
+    pkgconfig \
     libpng-dev \
-    libjpeg-dev \
+    libjpeg-turbo-dev \
     libwebp-dev \
-    libtiff-dev \
-    libavcodec-extra \
+    tiff-dev \
     ffmpeg \
     frei0r-plugins \
     rclone \
-    && rm -rf /var/lib/apt/lists/*
+    bash \
+    curl
 
-# Instala fontes Poppins
+# --- Instalar fontes Poppins ---
 RUN mkdir -p /usr/local/share/fonts/poppins && \
     wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Regular.ttf -P /usr/local/share/fonts/poppins && \
     wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Bold.ttf -P /usr/local/share/fonts/poppins && \
-    fc-cache -fv
+    fc-cache -fv || true
 
+# --- Configurações do contêiner ---
 USER node
 WORKDIR /home/node/.n8n
 EXPOSE 5678
+
+# Comando padrão para iniciar o n8n
 CMD ["n8n"]
