@@ -1,5 +1,5 @@
 # Usa imagem oficial do n8n baseada em Debian
-FROM n8nio/n8n:latest-debian
+FROM n8nio/n8n:latest
 
 USER root
 
