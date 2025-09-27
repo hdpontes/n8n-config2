@@ -1,10 +1,9 @@
-# --- Base n8n Alpine ---
+# Base n8n Alpine
 FROM n8nio/n8n:latest
 
-# Executar como root para instalar pacotes
 USER root
 
-# --- Pacotes do sistema (Alpine) ---
+# Instalar pacotes essenciais + utilitários
 RUN apk add --no-cache \
     wget \
     git \
@@ -12,29 +11,30 @@ RUN apk add --no-cache \
     fontconfig \
     imagemagick \
     graphicsmagick \
-    build-base \
-    yasm \
-    pkgconfig \
     libpng-dev \
     libjpeg-turbo-dev \
     libwebp-dev \
     tiff-dev \
-    ffmpeg \
     frei0r-plugins \
     rclone \
     bash \
-    curl
+    curl \
+    && rm -rf /var/cache/apk/*
 
-# --- Instalar fontes Poppins ---
+# Baixar FFmpeg estático completo (pré-compilado) para evitar compilação pesada
+RUN wget -O /usr/local/bin/ffmpeg https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-i686-static.tar.xz && \
+    tar -xJf /usr/local/bin/ffmpeg -C /usr/local/bin --strip-components=1 ffmpeg-*-static/ffmpeg && \
+    chmod +x /usr/local/bin/ffmpeg
+
+# Instalar fontes Poppins
 RUN mkdir -p /usr/local/share/fonts/poppins && \
     wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Regular.ttf -P /usr/local/share/fonts/poppins && \
     wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Bold.ttf -P /usr/local/share/fonts/poppins && \
     fc-cache -fv || true
 
-# --- Configurações do contêiner ---
+# Configurações finais
 USER node
 WORKDIR /home/node/.n8n
 EXPOSE 5678
 
-# Comando padrão para iniciar o n8n
 CMD ["n8n"]
