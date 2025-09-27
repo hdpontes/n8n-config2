@@ -1,41 +1,44 @@
-# Usa a imagem oficial do n8n (Alpine)
-FROM n8nio/n8n:latest
+# Usa imagem oficial do n8n baseada em Debian
+FROM n8nio/n8n:latest-debian
 
 USER root
 
-# Instala pacotes adicionais no Alpine
-RUN apk update && apk add --no-cache \
+# Instala pacotes adicionais
+RUN apt-get update && apt-get install -y \
     wget \
     git \
     unzip \
     fontconfig \
     imagemagick \
     graphicsmagick \
-    build-base \
+    build-essential \
+    libmagickwand-dev \
+    libmagickcore-dev \
     yasm \
-    pkgconfig \
+    pkg-config \
     libpng-dev \
-    libjpeg-turbo-dev \
+    libjpeg-dev \
     libwebp-dev \
     libtiff-dev \
+    libavcodec-extra \
     ffmpeg \
     frei0r-plugins \
     rclone \
-    && rm -rf /var/cache/apk/*
+    && rm -rf /var/lib/apt/lists/*
 
 # Baixa e instala fontes Poppins
-RUN mkdir -p /usr/share/fonts/poppins && \
-    wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Regular.ttf -P /usr/share/fonts/poppins && \
-    wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Bold.ttf -P /usr/share/fonts/poppins && \
+RUN mkdir -p /usr/local/share/fonts/poppins && \
+    wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Regular.ttf -P /usr/local/share/fonts/poppins && \
+    wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Bold.ttf -P /usr/local/share/fonts/poppins && \
     fc-cache -fv
 
-# Volta para o usuário node
+# Volta para usuário padrão
 USER node
 
 # Diretório de trabalho do n8n
 WORKDIR /home/node/.n8n
 
-# Porta padrão do n8n
+# Porta padrão
 EXPOSE 5678
 
 CMD ["n8n"]
