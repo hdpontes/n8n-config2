@@ -1,13 +1,11 @@
-# Base Node.js Debian para apt-get
-FROM node:20-bullseye
+# Usa a imagem oficial do n8n
+FROM n8nio/n8n:latest
 
-# Instalar aplicatiovos como root
+# Instalar pacotes adicionais como root
 USER root
 
-# --- Pacotes do sistema ---
 RUN apt-get update && apt-get install -y \
     wget \
-    curl \
     git \
     unzip \
     fontconfig \
@@ -34,17 +32,14 @@ RUN mkdir -p /usr/local/share/fonts/poppins && \
     wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Bold.ttf -P /usr/local/share/fonts/poppins && \
     fc-cache -fv
 
-# Instala n8n globalmente
-RUN npm install -g n8n
-
-# Diretório padrão do n8n (volume será mapeado aqui)
-WORKDIR /home/node/.n8n
-
-# Mantém usuário node (mais seguro)
+# Volta para o usuário padrão do n8n
 USER node
+
+# Diretório de trabalho do n8n
+WORKDIR /home/node/.n8n
 
 # Porta padrão do n8n
 EXPOSE 5678
 
-# Comando de inicialização do n8n
+# Comando de inicialização (opcional, já é padrão na imagem)
 CMD ["n8n"]
