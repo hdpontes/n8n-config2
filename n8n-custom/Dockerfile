@@ -22,9 +22,14 @@ RUN apk add --no-cache \
     && rm -rf /var/cache/apk/*
 
 # Baixar FFmpeg estático completo (pré-compilado) para evitar compilação pesada
-RUN wget -O /usr/local/bin/ffmpeg https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-i686-static.tar.xz && \
-    tar -xJf /usr/local/bin/ffmpeg -C /usr/local/bin --strip-components=1 ffmpeg-*-static/ffmpeg && \
-    chmod +x /usr/local/bin/ffmpeg
+# Baixa e extrai o FFmpeg static para /usr/local/bin
+RUN wget -O /tmp/ffmpeg-release.tar.xz https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz && \
+    tar -xJf /tmp/ffmpeg-release.tar.xz -C /tmp && \
+    cp /tmp/ffmpeg-*-static/ffmpeg /usr/local/bin/ && \
+    cp /tmp/ffmpeg-*-static/ffprobe /usr/local/bin/ && \
+    chmod +x /usr/local/bin/ffmpeg /usr/local/bin/ffprobe && \
+    rm -rf /tmp/ffmpeg-release.tar.xz /tmp/ffmpeg-*-static
+
 
 # Instalar fontes Poppins
 RUN mkdir -p /usr/local/share/fonts/poppins && \
