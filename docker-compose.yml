@@ -14,12 +14,11 @@ services:
       WEBHOOK_URL: "https://n8n.hpboost.com.br/"
       GENERIC_TIMEZONE: "America/Sao_Paulo"
       NODE_OPTIONS: "--max-old-space-size=4096"
-      N8N_COMMUNITY_PACKAGES_ALLOW_TOOL_USAGE: "true"
       N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: "true"
       N8N_EXECUTION_TIMEOUT: "3600"
       DB_SQLITE_POOL_SIZE: "4"
       N8N_RUNNERS_ENABLED: "true"
-      N8N_TRUSTED_PROXIES: "172.18.0.3"
+      N8N_TRUSTED_PROXIES: "0.0.0.0/0"
       N8N_BLOCK_ENV_ACCESS_IN_NODE: "false"
     volumes:
       - automacoes_n8n_data:/home/node/.n8n
@@ -33,4 +32,5 @@ volumes:
 networks:
   stack-portainer_default:
     external: true
+
 
