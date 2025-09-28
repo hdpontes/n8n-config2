@@ -30,7 +30,6 @@ RUN wget -O /tmp/ffmpeg-release.tar.xz https://johnvansickle.com/ffmpeg/releases
     chmod +x /usr/local/bin/ffmpeg /usr/local/bin/ffprobe && \
     rm -rf /tmp/ffmpeg-release.tar.xz /tmp/ffmpeg-*-static
 
-
 # Instalar fontes Poppins
 RUN mkdir -p /usr/local/share/fonts/poppins && \
     wget -q https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Regular.ttf -P /usr/local/share/fonts/poppins && \
@@ -39,7 +38,9 @@ RUN mkdir -p /usr/local/share/fonts/poppins && \
 
 # Configurações finais
 USER node
+
 WORKDIR /home/node/.n8n
+
 EXPOSE 5678
 
 #CMD ["n8n"]
