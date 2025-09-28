@@ -1,5 +1,5 @@
 # Base n8n Alpine
-FROM n8nio/n8n:latest
+FROM n8nio/n8n:stable
 
 USER root
 
