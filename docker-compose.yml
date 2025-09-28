@@ -2,6 +2,7 @@ services:
   n8n:
     build:
       context: ./n8n-custom
+    image: n8nio/n8n:stable
     platform: linux/amd64
     container_name: n8n
     restart: always
@@ -32,5 +33,6 @@ volumes:
 networks:
   stack-portainer_default:
     external: true
+
 
 
