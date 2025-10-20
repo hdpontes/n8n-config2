@@ -24,7 +24,7 @@ services:
     volumes:
       - automacoes_n8n_data:/home/node/.n8n
     networks:
-      - stack-portainer_default
+      - automacoes_default
 
 volumes:
   automacoes_n8n_data:
@@ -33,6 +33,7 @@ volumes:
 networks:
   automacoes_default:
     external: true
+
 
 
 
