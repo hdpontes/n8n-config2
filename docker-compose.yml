@@ -31,8 +31,9 @@ volumes:
     external: true
 
 networks:
-  stack-portainer_default:
+  automacoes_default:
     external: true
+
 
 
 
