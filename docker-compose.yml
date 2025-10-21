@@ -2,7 +2,7 @@ services:
   n8n:
     build:
       context: ./n8n-custom
-    image: n8nio/n8n:stable
+    image: docker.n8n.io/n8nio/n8n
     platform: linux/amd64
     container_name: n8n
     restart: always
@@ -33,9 +33,3 @@ volumes:
 networks:
   automacoes_default:
     external: true
-
-
-
-
-
-
